@@ -1,5 +1,6 @@
 rootProject.name = 'SBQuickStart'
 
+
 [framework, application].each { root ->
     File rootPath = file(root)
     if (rootPath.exists()) {

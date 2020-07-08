@@ -11,6 +11,11 @@ buildscript {
 	}
 }
 
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE' apply false
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
+}
+
 
 group = 'com.hmtmcse'
 version = '0.0.1'
@@ -31,10 +36,9 @@ allprojects {
 	apply plugin: 'idea'
 
 	sourceCompatibility = '11'
-
 	dependencies {}
-
 }
+
 
 Boolean isSpringBootProject(String name) {
 	[framework, application].each { root ->
@@ -49,8 +53,10 @@ Boolean isSpringBootProject(String name) {
 }
 
 subprojects { project ->
-	dependencies {
-		if (isSpringBootProject(project.name)){
+	if (isSpringBootProject(project.name)) {
+		apply plugin: 'org.springframework.boot'
+		apply plugin: 'io.spring.dependency-management'
+		dependencies {
 			implementation 'org.springframework.boot:spring-boot-starter-web'
 			testImplementation('org.springframework.boot:spring-boot-starter-test') {
 				exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
