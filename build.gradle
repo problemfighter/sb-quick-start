@@ -1,0 +1,45 @@
+buildscript {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		jcenter()
+		maven { url "https://dl.bintray.com/hmtmcse/maven/" }
+		maven { url "https://repo.maven.apache.org/maven2/" }
+	}
+	dependencies {
+		classpath 'org.ajoberstar.grgit:grgit-core:3.1.1'
+	}
+}
+
+
+group = 'com.hmtmcse'
+version = '0.0.1'
+
+
+
+allprojects {
+
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		jcenter()
+		maven { url "https://dl.bintray.com/hmtmcse/maven/" }
+		maven { url "https://repo.maven.apache.org/maven2/" }
+	}
+
+	apply plugin: 'java'
+	apply plugin: 'idea'
+
+	sourceCompatibility = '11'
+
+	dependencies {
+
+	}
+
+}
+
+subprojects { project ->
+
+
+}
+
