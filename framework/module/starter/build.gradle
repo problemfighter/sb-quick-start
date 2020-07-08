@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.hmtmcse.sbes'
+group = 'com.problemfighter.sbqs'
 version = '0.0.1'
 
 repositories {
@@ -13,12 +13,5 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
 }
 
-test {
-	useJUnitPlatform()
-}

@@ -32,14 +32,30 @@ allprojects {
 
 	sourceCompatibility = '11'
 
-	dependencies {
-
-	}
+	dependencies {}
 
 }
 
+Boolean isSpringBootProject(String name) {
+	[framework, application].each { root ->
+		["module"].each { subsection ->
+			File subsectionDirectory = new File(root, subsection)
+			if (subsectionDirectory.exists()) {
+				return subsectionDirectory.list().contains(name)
+			}
+		}
+	}
+	return false
+}
+
 subprojects { project ->
-
-
+	dependencies {
+		if (isSpringBootProject(project.name)){
+			implementation 'org.springframework.boot:spring-boot-starter-web'
+			testImplementation('org.springframework.boot:spring-boot-starter-test') {
+				exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+			}
+		}
+	}
 }
 
