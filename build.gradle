@@ -64,6 +64,8 @@ subprojects { project ->
 	if (isSpringBootProject(project.name)) {
 		println("SB Module: " + project.name)
 		apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
+		bootJar { enabled = false }
+		jar { enabled = true }
 	}
 }
 
