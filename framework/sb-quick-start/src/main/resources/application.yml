@@ -1,0 +1,8 @@
+server:
+  port: 9901
+
+spring:
+  datasource:
+    url: 'jdbc:h2:mem:sq-quick-start'
+    username: 'sa'
+    password: ''

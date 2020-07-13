@@ -6,7 +6,10 @@ repositories {
 	mavenCentral()
 }
 
+apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
+
 dependencies {
+	implementation project(':student')
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
