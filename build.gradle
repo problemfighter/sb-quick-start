@@ -11,10 +11,10 @@ buildscript {
 	}
 }
 
-//plugins {
-//	id 'org.springframework.boot' version '2.3.1.RELEASE'
-//	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-//}
+plugins {
+	id 'org.springframework.boot' version '2.3.1.RELEASE' apply false
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE' apply false
+}
 
 
 group = 'com.hmtmcse'
@@ -41,11 +41,18 @@ allprojects {
 
 
 Boolean isSpringBootProject(String name) {
-	[framework, application].each { root ->
-		["module"].each { subsection ->
-			File subsectionDirectory = new File(root, subsection)
+	String projectRoot = rootProject.projectDir
+	List projectRoots = [frameworkPath, applicationPath]
+	for (String projectRootName : projectRoots) {
+		File rootPath = new File(projectRoot, projectRootName)
+		List modules = ["module"]
+		for (String moduleName : modules) {
+			File subsectionDirectory = new File(rootPath, moduleName)
 			if (subsectionDirectory.exists()) {
-				return subsectionDirectory.list().contains(name)
+				if (subsectionDirectory.list().contains(name)) {
+					return true
+				}
+
 			}
 		}
 	}
@@ -54,6 +61,7 @@ Boolean isSpringBootProject(String name) {
 
 subprojects { project ->
 	if (isSpringBootProject(project.name)) {
+		println("SB Module: " + project.name)
 		apply plugin: 'org.springframework.boot'
 		apply plugin: 'io.spring.dependency-management'
 		dependencies {
