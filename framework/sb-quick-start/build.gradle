@@ -7,9 +7,9 @@ repositories {
 }
 
 apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
+apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/add-all-modules.gradle"
 
 dependencies {
-	implementation project(':student')
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 

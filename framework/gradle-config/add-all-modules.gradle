@@ -1,0 +1,18 @@
+dependencies {
+    String projectRoot = rootProject.projectDir
+    List projectRoots = [frameworkPath, applicationPath]
+    for (String projectRootName : projectRoots) {
+        File rootPath = new File(projectRoot, projectRootName)
+        List modules = ["module"]
+        for (String moduleName : modules) {
+            File subsectionDirectory = new File(rootPath, moduleName)
+            if (subsectionDirectory.exists()) {
+                subsectionDirectory.list().each { subModuleName ->
+                    if (findProject(":" + subModuleName)) {
+                        implementation project(":" + subModuleName)
+                    }
+                }
+            }
+        }
+    }
+}
