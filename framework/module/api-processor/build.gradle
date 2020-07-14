@@ -1,0 +1,15 @@
+group = 'com.problemfighter.apiprocessor'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    swaggerVersion = "1.4.3"
+}
+
+dependencies {
+    implementation "org.springdoc:springdoc-openapi-ui:${swaggerVersion}"
+}
+
