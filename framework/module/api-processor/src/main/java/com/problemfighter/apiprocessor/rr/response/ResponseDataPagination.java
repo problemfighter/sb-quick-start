@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 
-@Schema(anyOf = {ResponseBasic.class, ResponseDataPagination.class})
+//@Schema(anyOf = {ResponseBasic.class, ResponseDataPagination.class})
 public class ResponseDataPagination<T> extends ResponsePagination {
 
     public T data;

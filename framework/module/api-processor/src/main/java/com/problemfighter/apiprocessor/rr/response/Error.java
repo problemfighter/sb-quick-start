@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.LinkedHashMap;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(name = "errorDetails")
+@Schema(name = "error")
 public class Error {
 
     public String message;
