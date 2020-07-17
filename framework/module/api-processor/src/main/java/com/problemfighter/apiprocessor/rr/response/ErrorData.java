@@ -7,11 +7,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.LinkedHashMap;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Schema(name = "error")
+@Schema(name = "error", description = "status error response")
 public class ErrorData {
 
     public String message;
-    @Schema(example = "name: Name")
-    public LinkedHashMap<String, String> fields;
+    @Schema(example = "key: explanation", description = "")
+    public LinkedHashMap<String, String> details;
 
 }

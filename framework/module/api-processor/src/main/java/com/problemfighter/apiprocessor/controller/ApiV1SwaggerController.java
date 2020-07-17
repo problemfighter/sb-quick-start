@@ -3,8 +3,10 @@ package com.problemfighter.apiprocessor.controller;
 
 
 import com.problemfighter.apiprocessor.dto.SwaggerDTO;
-import com.problemfighter.apiprocessor.rr.ApiResponse2;
 import com.problemfighter.apiprocessor.rr.ResponseDTO;
+import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
+import com.problemfighter.apiprocessor.rr.response.MessageResponse;
+import com.problemfighter.apiprocessor.rr.response.PageableResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,22 +23,17 @@ import java.util.List;
 public class ApiV1SwaggerController {
 
     @RequestMapping(value = "/list", produces = "application/json", method = RequestMethod.GET)
-    @Operation(summary = "Swagger DTO Test")
-    public ResponseEntity<SwaggerDTO> list() {
-        List<SwaggerDTO> list = new ArrayList<>();
-//        list.add(new SwaggerDTO().age(20).name("Name 20"));
-//        list.add(new SwaggerDTO().age(10).name("Name 10"));
-//        list.add(new SwaggerDTO().age(15).name("Name 15"));
-
-        ResponseDTO<List<SwaggerDTO>> responseDTO = ResponseDTO.<List<SwaggerDTO>>builder()
-                .status(HttpStatus.OK.toString())
-                .data(list).build();
-
+    public PageableResponse<List<SwaggerDTO>> list() {
         return null;
     }
 
-    @RequestMapping(value = "/list2", produces = "application/json", method = RequestMethod.GET)
-    public ApiResponse2<SwaggerDTO> list2() {
+    @RequestMapping(value = "/details", produces = "application/json", method = RequestMethod.GET)
+    public DetailsResponse<SwaggerDTO> details() {
+        return null;
+    }
+
+    @RequestMapping(value = "/message", produces = "application/json", method = RequestMethod.GET)
+    public MessageResponse message() {
         return null;
     }
 
