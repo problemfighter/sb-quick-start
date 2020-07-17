@@ -5,5 +5,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "error")
 public class ResponseBasic {
-    public Error error;
+    public ErrorData error;
 }

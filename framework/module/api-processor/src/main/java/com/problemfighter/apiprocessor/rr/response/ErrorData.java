@@ -8,7 +8,7 @@ import java.util.LinkedHashMap;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Schema(name = "error")
-public class Error {
+public class ErrorData {
 
     public String message;
     @Schema(example = "name: Name")
