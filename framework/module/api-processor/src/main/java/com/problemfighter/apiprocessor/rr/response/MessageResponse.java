@@ -1,9 +1,10 @@
 package com.problemfighter.apiprocessor.rr.response;
 
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.annotations.ApiModel;
 
-@Schema(name = "message", description = "status success response")
+
+@ApiModel(value = "message", description = "status success response")
 public class MessageResponse extends ErrorAndBaseData {
     public String message;
 }
