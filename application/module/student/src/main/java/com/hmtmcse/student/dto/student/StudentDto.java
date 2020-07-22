@@ -1,6 +1,6 @@
 package com.hmtmcse.student.dto.student;
 
-public class StudentBaseDto {
+public class StudentDto {
 
     public String firstName;
     public String lastName;
