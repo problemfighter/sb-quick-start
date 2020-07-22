@@ -2,9 +2,12 @@ package com.hmtmcse.student.controller.api;
 
 
 import com.hmtmcse.student.dto.student.StudentDetailsDto;
+import com.hmtmcse.student.dto.student.StudentDto;
+import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
 import com.problemfighter.apiprocessor.rr.response.MessageResponse;
 import com.problemfighter.apiprocessor.rr.response.PageableResponse;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiV1StudentController {
 
     @RequestMapping(value = "/create", produces = "application/json", method = RequestMethod.POST)
-    public MessageResponse create() {
+    public MessageResponse create(@RequestBody RequestData<StudentDto> data) {
         return null;
     }
 
