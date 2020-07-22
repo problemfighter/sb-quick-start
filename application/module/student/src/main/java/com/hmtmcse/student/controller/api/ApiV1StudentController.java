@@ -17,27 +17,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/student")
 public class ApiV1StudentController {
 
-    @RequestMapping(value = "/create", produces = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public MessageResponse create(@RequestBody RequestData<StudentDto> data) {
         return null;
     }
 
-    @RequestMapping(value = "/update", produces = "application/json", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/update", method = RequestMethod.PATCH)
     public MessageResponse update() {
         return null;
     }
 
-    @RequestMapping(value = "/list", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageableResponse<StudentDetailsDto> list() {
         return null;
     }
 
-    @RequestMapping(value = "/details", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
     public DetailsResponse<StudentDetailsDto> details() {
         return null;
     }
 
-    @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public MessageResponse delete() {
         return null;
     }
