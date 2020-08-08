@@ -68,3 +68,35 @@ subprojects { project ->
 	}
 }
 
+
+def projectDependencies = [
+		[
+				"name"        : "Framework Library",
+				"destination" : "$frameworkPath" + "library/",
+				"dependencies": [
+						"java-object-copier": "https://github.com/hmtmcse/java-object-copier.git",
+				]
+		]
+]
+
+task resolveDependencies {
+	doLast {
+		String destinationPath = ""
+		projectDependencies.each { Map dependencyMap ->
+			destinationPath = dependencyMap.destination
+			println("Now Cloning ${dependencyMap.name}")
+			dependencyMap.dependencies.each { name, url ->
+				println("------------------------------------------------------------------------------------------")
+				def destination = file(destinationPath + name)
+				try {
+					println("Cloning Project ${name}")
+					org.ajoberstar.grgit.Grgit.clone(dir: destination, uri: url)
+				} catch (Exception e) {
+					println(e.getMessage())
+				}
+				println("------------------------------------------------------------------------------------------\n")
+			}
+		}
+	}
+}
+

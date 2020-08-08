@@ -10,7 +10,16 @@ ext {
 //    swaggerVersion = "2.9.2"
 }
 
+def dependencyList = [
+        "java-object-copier"
+]
+
 dependencies {
+    dependencyList.each {
+        if (findProject(":" + it)){
+            implementation project(":" + it)
+        }
+    }
     implementation "io.springfox:springfox-swagger2:${swaggerVersion}"
     implementation "io.springfox:springfox-swagger-ui:${swaggerVersion}"
     implementation "io.springfox:springfox-data-rest:${swaggerVersion}"
