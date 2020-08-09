@@ -7,7 +7,6 @@ repositories {
 
 ext {
     swaggerVersion = "$springfox"
-//    swaggerVersion = "2.9.2"
 }
 
 def dependencyList = [
