@@ -9,7 +9,16 @@ repositories {
 apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
 apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/add-all-modules.gradle"
 
+def dependencyList = [
+		"api-processor"
+]
+
 dependencies {
+	dependencyList.each {
+		if (findProject(":" + it)){
+			implementation project(":" + it)
+		}
+	}
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
 

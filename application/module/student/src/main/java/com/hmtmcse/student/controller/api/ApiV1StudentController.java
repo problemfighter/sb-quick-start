@@ -5,6 +5,7 @@ import com.hmtmcse.student.dto.student.StudentDetailsDto;
 import com.hmtmcse.student.dto.student.StudentDto;
 import com.hmtmcse.student.entity.Student;
 import com.hmtmcse.student.service.StudentService;
+import com.problemfighter.apiprocessor.common.ApiProcessorException;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
 import com.problemfighter.apiprocessor.rr.response.MessageResponse;
@@ -43,5 +44,10 @@ public class ApiV1StudentController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public MessageResponse delete(@PathVariable(name = "id") Long id) {
         return null;
+    }
+
+    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    public PageableResponse<StudentDetailsDto> error() {
+        throw new ApiProcessorException();
     }
 }
