@@ -7,4 +7,5 @@ public final class ExceptionMessage {
     public static String forbidden = "Resource Forbidden!";
     public static String badRequest = "Invalid Request!";
     public static String unauthorized = "You are not allowed!";
+    public static String validationError = "Data Validation Error!";
 }

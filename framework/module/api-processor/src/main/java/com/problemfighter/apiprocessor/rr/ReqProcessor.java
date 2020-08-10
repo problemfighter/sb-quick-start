@@ -13,22 +13,21 @@ public class ReqProcessor extends ObjectCopier {
         try {
             return copy(source, destination);
         } catch (ObjectCopierException e) {
-            throw new ApiProcessorException(e.getMessage());
+            ApiProcessorException.otherError(e.getMessage());
+        }
+        return null;
+    }
+
+    public void dataValidate(Object source) {
+        LinkedHashMap<String, String> errors = validateObject(source);
+        if (errors.size() != 0) {
+            ApiProcessorException.throwException(ResProcessor.validationError().reason(errors));
         }
     }
 
     public <D> D copySrcToDstValidate(Object source, Class<D> destination) {
-        try {
-            LinkedHashMap<String, String> errors = validateObject(source);
-            if (errors.size() != 0) {
-
-            }
-            D data = copySrcToDst(source, destination);
-
-            return data;
-        } catch (ApiProcessorException e) {
-            throw new ApiProcessorException(e.getMessage());
-        }
+        dataValidate(source);
+        return copySrcToDst(source, destination);
     }
 
     // Quick Access

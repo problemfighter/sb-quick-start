@@ -29,7 +29,7 @@ public class ApiProcessorException extends RuntimeException {
         return this.errorMessage;
     }
 
-    public static void throwException(Object errorMessage) {
+    public static void throwException(Object errorMessage) throws ApiProcessorException {
         throw new ApiProcessorException().error(errorMessage);
     }
 
@@ -39,5 +39,9 @@ public class ApiProcessorException extends RuntimeException {
 
     public static void unauthorized() {
         throwException(ResProcessor.unauthorized());
+    }
+
+    public static void otherError(String errorMessage) {
+        throwException(ResProcessor.otherError(errorMessage));
     }
 }

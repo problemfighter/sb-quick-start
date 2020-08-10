@@ -68,6 +68,13 @@ public class ResProcessor extends ObjectCopier {
         return errorMessage(ExceptionMessage.codeError).setCode(ErrorCode.codeError);
     }
 
+    public static MessageResponse validationError() {
+        return errorMessage(ExceptionMessage.validationError, ErrorCode.validationError);
+    }
+
+    public static MessageResponse otherError(String message) {
+        return errorMessage(message, ErrorCode.otherError);
+    }
 
     public static MessageResponse errorMessage(String message, String errorCode) {
         return instance().errorMessageResponse(message, errorCode);
