@@ -42,6 +42,7 @@ public class ResProcessor extends ObjectCopier {
         return instance().errorMessageResponse(message, ErrorCode.error);
     }
 
+
     public static MessageResponse unknownError() {
         return instance().errorMessageResponse(ExceptionMessage.unknownError, ErrorCode.unknownError);
     }
