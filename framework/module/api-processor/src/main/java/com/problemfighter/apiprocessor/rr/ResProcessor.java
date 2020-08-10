@@ -4,9 +4,13 @@ import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.exception.ExceptionMessage;
 import com.problemfighter.apiprocessor.rr.response.*;
 
-public class ResProcessor extends ObjectCopier {
+public class ResProcessor {
 
-    public static String UNKNOWN_ERROR = "Unknown Error Occur!";
+    private ObjectCopier objectCopier;
+
+    public ResProcessor() {
+        this.objectCopier = new ObjectCopier();
+    }
 
     public static ResProcessor instance() {
         return new ResProcessor();

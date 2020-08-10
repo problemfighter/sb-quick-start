@@ -1,4 +1,13 @@
+def dependencyList = []
+
 dependencies {
+
+    dependencyList.each {
+        if (findProject(":" + it)){
+            implementation project(":" + it)
+        }
+    }
+
     String projectRoot = rootProject.projectDir
     List projectRoots = [frameworkPath, applicationPath]
     for (String projectRootName : projectRoots) {

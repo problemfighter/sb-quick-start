@@ -3,14 +3,21 @@ package com.problemfighter.apiprocessor.rr;
 import com.hmtmcse.oc.common.ObjectCopierException;
 import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
+import com.problemfighter.apiprocessor.rr.request.RequestData;
 
 import java.util.LinkedHashMap;
 
-public class ReqProcessor extends ObjectCopier {
+public class ReqProcessor {
+
+    private ObjectCopier objectCopier;
+
+    public ReqProcessor() {
+        this.objectCopier = new ObjectCopier();
+    }
 
     public <D> D copySrcToDst(Object source, D destination) {
         try {
-            return copy(source, destination);
+            return this.objectCopier.copy(source, destination);
         } catch (ObjectCopierException e) {
             ApiProcessorException.otherError(e.getMessage());
         }
@@ -19,7 +26,7 @@ public class ReqProcessor extends ObjectCopier {
 
     public <D> D copySrcToDst(Object source, Class<D> destination) {
         try {
-            return copy(source, destination);
+            return this.objectCopier.copy(source, destination);
         } catch (ObjectCopierException e) {
             ApiProcessorException.otherError(e.getMessage());
         }
@@ -27,10 +34,14 @@ public class ReqProcessor extends ObjectCopier {
     }
 
     public void dataValidate(Object source) {
-        LinkedHashMap<String, String> errors = validateObject(source);
+        LinkedHashMap<String, String> errors = this.objectCopier.validateObject(source);
         if (errors.size() != 0) {
             ApiProcessorException.throwException(ResProcessor.validationError().reason(errors));
         }
+    }
+
+    public void dataValidate(RequestData<?> requestData) {
+        dataValidate(requestData.getData());
     }
 
     public <D> D copySrcToDstValidate(Object source, Class<D> destination) {
