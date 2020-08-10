@@ -32,15 +32,15 @@ public class ResProcessor {
         return responseMessage(null, errorCode).errorMessage(message).status(Status.error);
     }
 
+    public MessageResponse successMessage(String message) {
+        return instance().responseMessage(message, ErrorCode.success);
+    }
 
     // Quick Access
     public static MessageResponse messageResponse(String message, String errorCode) {
         return instance().responseMessage(message, errorCode);
     }
 
-    public static MessageResponse successMessage(String message) {
-        return instance().responseMessage(message, ErrorCode.success);
-    }
 
     public static MessageResponse errorMessage(String message) {
         return instance().errorMessageResponse(message, ErrorCode.error);

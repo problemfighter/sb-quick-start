@@ -59,21 +59,28 @@ public class ReqProcessor {
         return new ReqProcessor();
     }
 
-    public static <D> D copyOnly(Object source, Class<D> destination) throws ApiProcessorException {
+    public <D> D copyOnly(Object source, Class<D> destination) throws ApiProcessorException {
         return instance().copySrcToDst(source, destination);
     }
 
-    public static <D> D copyOnly(Object source, D destination) throws ApiProcessorException {
+    public <D> D copyOnly(Object source, D destination) throws ApiProcessorException {
         return instance().copySrcToDst(source, destination);
     }
 
-    public static <D> D process(Object source, Class<D> destination) {
+    public <D> D process(Object source, Class<D> destination) {
         return instance().copySrcToDstValidate(source, destination);
     }
 
-    public static <D> D process(Object source, D destination) {
+    public <D> D process(Object source, D destination) {
         return instance().copySrcToDstValidate(source, destination);
     }
 
+    public <D> D process(RequestData<?> requestData, D destination) {
+        return instance().copySrcToDstValidate(requestData.getData(), destination);
+    }
+
+    public <D> D process(RequestData<?> requestData, Class<D> destination) {
+        return instance().copySrcToDstValidate(requestData.getData(), destination);
+    }
 
 }
