@@ -28,4 +28,16 @@ public class ApiProcessorException extends RuntimeException {
         }
         return this.errorMessage;
     }
+
+    public static void throwException(Object errorMessage) {
+        throw new ApiProcessorException().error(errorMessage);
+    }
+
+    public static void notFound() {
+        throwException(ResProcessor.notFound());
+    }
+
+    public static void unauthorized() {
+        throwException(ResProcessor.unauthorized());
+    }
 }
