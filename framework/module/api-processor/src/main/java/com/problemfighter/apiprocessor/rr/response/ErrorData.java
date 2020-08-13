@@ -10,8 +10,8 @@ import java.util.LinkedHashMap;
 @ApiModel(value = "error", description = "status error response")
 public class ErrorData {
 
-    public String message;
+    public I18nMessage message;
     @ApiModelProperty(example = "key: explanation")
-    public LinkedHashMap<String, String> details;
+    public LinkedHashMap<String, I18nMessage> details;
 
 }

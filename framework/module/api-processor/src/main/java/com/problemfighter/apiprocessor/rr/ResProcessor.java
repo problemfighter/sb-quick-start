@@ -22,7 +22,7 @@ public class ResProcessor {
 
     public MessageResponse responseMessage(String message, String errorCode, ErrorData error) {
         MessageResponse messageResponse = new MessageResponse();
-        messageResponse.message = message;
+        messageResponse.message = I18nMessage.message(message);
         messageResponse.code = errorCode;
         messageResponse.error = error;
         return messageResponse;

@@ -2,6 +2,7 @@ package com.problemfighter.apiprocessor.rr.response;
 
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ErrorAndBaseData extends BaseData {
     public ErrorData error;
@@ -14,7 +15,7 @@ public class ErrorAndBaseData extends BaseData {
 
     public void addErrorMessage(String message) {
         initErrorData();
-        error.message = message;
+        error.message = new I18nMessage(message).setTextToKey(message);
     }
 
     public void addErrorReason(String key, String explanation) {
@@ -22,6 +23,13 @@ public class ErrorAndBaseData extends BaseData {
         if (error.details == null) {
             error.details = new LinkedHashMap<>();
         }
-        error.details.put(key, explanation);
+        error.details.put(key, new I18nMessage(explanation).setTextToKey(explanation));
     }
+
+    public void addI18nReason(LinkedHashMap<String, String> details) {
+        for (Map.Entry<String, String> entry : details.entrySet()) {
+            addErrorReason(entry.getKey(), entry.getValue());
+        }
+    }
+
 }
