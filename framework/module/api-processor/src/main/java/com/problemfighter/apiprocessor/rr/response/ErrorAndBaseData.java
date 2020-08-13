@@ -32,4 +32,10 @@ public class ErrorAndBaseData extends BaseData {
         }
     }
 
+    public void updateErrorMessageKey(String key) {
+        if (error != null && error.message != null) {
+            error.message.key = key;
+        }
+    }
+
 }

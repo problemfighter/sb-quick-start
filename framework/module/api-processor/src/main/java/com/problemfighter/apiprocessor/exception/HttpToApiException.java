@@ -1,7 +1,6 @@
 package com.problemfighter.apiprocessor.exception;
 
 import com.problemfighter.apiprocessor.rr.ResProcessor;
-import com.problemfighter.apiprocessor.rr.response.ErrorCode;
 import com.problemfighter.apiprocessor.rr.response.MessageResponse;
 import org.springframework.http.HttpStatus;
 

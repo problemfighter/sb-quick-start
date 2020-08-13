@@ -3,6 +3,7 @@ package com.problemfighter.apiprocessor.rr.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.annotations.ApiModel;
+
 import java.util.LinkedHashMap;
 
 
@@ -34,6 +35,13 @@ public class MessageResponse extends ErrorAndBaseData {
 
     public MessageResponse setCode(String code) {
         this.code = code;
+        return this;
+    }
+
+    public MessageResponse updateMessageKey(String key) {
+        if (message != null) {
+            message.key = key;
+        }
         return this;
     }
 }

@@ -1,4 +1,4 @@
-package com.problemfighter.apiprocessor.rr.response;
+package com.problemfighter.apiprocessor.exception;
 
 public final class ErrorCode {
 
@@ -15,5 +15,9 @@ public final class ErrorCode {
     public static final String error = "1510";
     public static final String unknownError = "1511";
     public static final String otherError = "1512";
+
+
+
+    public static final String hibernateError = "1580";
 
 }
