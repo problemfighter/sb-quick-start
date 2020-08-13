@@ -1,0 +1,4 @@
+= Feature need to test and implement
+
+* JPA Exception Handling
+* Update

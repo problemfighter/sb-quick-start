@@ -1,13 +1,13 @@
 package com.problemfighter.controller;
 
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
+import com.problemfighter.apiprocessor.exception.ExceptionProcessor;
 import com.problemfighter.apiprocessor.exception.HttpToApiException;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
@@ -16,7 +16,7 @@ public class SBQuickStartExceptionController implements ErrorController {
 
     @ExceptionHandler(Exception.class)
     public Object handleException(HttpServletRequest request, Exception exception) {
-        return "Exception";
+        return ExceptionProcessor.instance().handleException(exception);
     }
 
     @ExceptionHandler(value = ApiProcessorException.class)
@@ -24,10 +24,6 @@ public class SBQuickStartExceptionController implements ErrorController {
         return exception.getError();
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public Object noHandlerFoundException(HttpServletRequest request, Exception e) {
-        return "NoHandlerFoundException";
-    }
 
     @RequestMapping(value = "/error")
     public Object error(HttpServletRequest request, Exception e) {

@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 public class I18nMessage {
     public String text;
     public String key;
-    public String code;
+
+//    TODO: Will Implement Later
+//    public String code;
 
     public I18nMessage() {
     }
@@ -30,10 +32,6 @@ public class I18nMessage {
         return this;
     }
 
-    public I18nMessage setCode(String code) {
-        this.code = code;
-        return this;
-    }
 
     public I18nMessage setTextToKey(String text) {
         this.key = textToKey(text);
