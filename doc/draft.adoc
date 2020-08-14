@@ -1,0 +1,22 @@
+= Step by Step Task Plan
+
+* Message with I18n
+* Basic Save Data
+** Validation Error Check
+** Hibernate or JPA or Database Error Check
+* Bulk Save
+* List with Pagination
+** Sorting
+** Search
+* Item Details
+* Update
+** Validation Error Check
+** Hibernate or JPA or Database Error Check
+* Bulk Update
+* Delete
+** Hibernate or JPA or Database Error Check
+* Bulk Delete
+* Export to CSV
+* Import from CSV (Save update both will allowed)
+
+* Relation Database
