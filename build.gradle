@@ -1,19 +1,19 @@
 buildscript {
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		jcenter()
-		maven { url "https://dl.bintray.com/hmtmcse/maven/" }
-		maven { url "https://repo.maven.apache.org/maven2/" }
-	}
-	dependencies {
-		classpath 'org.ajoberstar.grgit:grgit-core:3.1.1'
-	}
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://dl.bintray.com/hmtmcse/maven/" }
+        maven { url "https://repo.maven.apache.org/maven2/" }
+    }
+    dependencies {
+        classpath 'org.ajoberstar.grgit:grgit-core:3.1.1'
+    }
 }
 
 plugins {
-	id 'org.springframework.boot' version "$springboot" apply false
-	id 'io.spring.dependency-management' version "$dependencyManagement" apply false
+    id 'org.springframework.boot' version "$springboot" apply false
+    id 'io.spring.dependency-management' version "$dependencyManagement" apply false
 }
 
 
@@ -21,82 +21,83 @@ group = 'com.hmtmcse'
 version = '0.0.1'
 
 
-
 allprojects {
 
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		jcenter()
-		maven { url "https://dl.bintray.com/hmtmcse/maven/" }
-		maven { url "https://repo.maven.apache.org/maven2/" }
-	}
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+        maven { url "https://dl.bintray.com/hmtmcse/maven/" }
+        maven { url "https://repo.maven.apache.org/maven2/" }
+    }
 
-	apply plugin: 'java'
-	apply plugin: 'idea'
+    apply plugin: 'java'
+    apply plugin: 'idea'
 
-	sourceCompatibility = '11'
-	dependencies {}
+    sourceCompatibility = '11'
+    dependencies {}
 }
 
 
 Boolean isSpringBootProject(String name) {
-	String projectRoot = rootProject.projectDir
-	List projectRoots = [frameworkPath, applicationPath]
-	for (String projectRootName : projectRoots) {
-		File rootPath = new File(projectRoot, projectRootName)
-		List modules = ["module"]
-		for (String moduleName : modules) {
-			File subsectionDirectory = new File(rootPath, moduleName)
-			if (subsectionDirectory.exists()) {
-				if (subsectionDirectory.list().contains(name)) {
-					return true
-				}
+    String projectRoot = rootProject.projectDir
+    List projectRoots = [frameworkPath, applicationPath]
+    for (String projectRootName : projectRoots) {
+        File rootPath = new File(projectRoot, projectRootName)
+        List modules = ["module"]
+        for (String moduleName : modules) {
+            File subsectionDirectory = new File(rootPath, moduleName)
+            if (subsectionDirectory.exists()) {
+                if (subsectionDirectory.list().contains(name)) {
+                    return true
+                }
 
-			}
-		}
-	}
-	return false
+            }
+        }
+    }
+    return false
 }
 
+
 subprojects { project ->
-	if (isSpringBootProject(project.name)) {
-		println("SB Module: " + project.name)
-		apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
-		bootJar { enabled = false }
-		jar { enabled = true }
-	}
+
+    if (isSpringBootProject(project.name)) {
+        println("SB Module: " + project.name)
+        apply from: "${rootProject.projectDir}/${frameworkPath}gradle-config/sbc-dependencies.gradle"
+        bootJar { enabled = false }
+        jar { enabled = true }
+    }
 }
 
 
 def projectDependencies = [
-		[
-				"name"        : "Framework Library",
-				"destination" : "$frameworkPath" + "library/",
-				"dependencies": [
-						"java-object-copier": "https://github.com/hmtmcse/java-object-copier.git",
-				]
-		]
+        [
+                "name"        : "Framework Library",
+                "destination" : "$frameworkPath" + "library/",
+                "dependencies": [
+                        "java-object-copier": "https://github.com/hmtmcse/java-object-copier.git",
+                ]
+        ]
 ]
 
 task resolveDependencies {
-	doLast {
-		String destinationPath = ""
-		projectDependencies.each { Map dependencyMap ->
-			destinationPath = dependencyMap.destination
-			println("Now Cloning ${dependencyMap.name}")
-			dependencyMap.dependencies.each { name, url ->
-				println("------------------------------------------------------------------------------------------")
-				def destination = file(destinationPath + name)
-				try {
-					println("Cloning Project ${name}")
-					org.ajoberstar.grgit.Grgit.clone(dir: destination, uri: url)
-				} catch (Exception e) {
-					println(e.getMessage())
-				}
-				println("------------------------------------------------------------------------------------------\n")
-			}
-		}
-	}
+    doLast {
+        String destinationPath = ""
+        projectDependencies.each { Map dependencyMap ->
+            destinationPath = dependencyMap.destination
+            println("Now Cloning ${dependencyMap.name}")
+            dependencyMap.dependencies.each { name, url ->
+                println("------------------------------------------------------------------------------------------")
+                def destination = file(destinationPath + name)
+                try {
+                    println("Cloning Project ${name}")
+                    org.ajoberstar.grgit.Grgit.clone(dir: destination, uri: url)
+                } catch (Exception e) {
+                    println(e.getMessage())
+                }
+                println("------------------------------------------------------------------------------------------\n")
+            }
+        }
+    }
 }
 

@@ -8,5 +8,6 @@ repositories {
 
 dependencies {
 	implementation project(":api-processor")
+	implementation project(":app-common")
 }
 

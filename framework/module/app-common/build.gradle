@@ -1,0 +1,17 @@
+group = 'com.problemfighter.appcommon'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+def dependencyList = []
+
+dependencies {
+    dependencyList.each {
+        if (findProject(":" + it)){
+            implementation project(":" + it)
+        }
+    }
+}
+
