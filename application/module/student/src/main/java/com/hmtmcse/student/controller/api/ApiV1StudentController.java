@@ -3,8 +3,7 @@ package com.hmtmcse.student.controller.api;
 
 import com.hmtmcse.student.dto.student.StudentDetailsDto;
 import com.hmtmcse.student.dto.student.StudentDto;
-import com.hmtmcse.student.entity.Student;
-import com.hmtmcse.student.repository.StudentRepository;
+import com.hmtmcse.student.model.entity.Student;
 import com.hmtmcse.student.service.StudentService;
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
 import com.problemfighter.apiprocessor.rr.request.RequestData;

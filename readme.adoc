@@ -1,2 +1,12 @@
 = Spring Boot Quick Start Framework
 
+
+
+
+
+== Database
+```mysql
+DROP DATABASE IF EXISTS spring_boot_bismillah;
+CREATE DATABASE spring_boot_bismillah CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
