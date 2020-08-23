@@ -1,6 +1,8 @@
 package com.hmtmcse.student.model.entity;
 
 
+import com.problemfighter.appcommon.model.EntityCommon;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Semester extends Base {
+public class Semester extends EntityCommon {
 
     public String name;
 

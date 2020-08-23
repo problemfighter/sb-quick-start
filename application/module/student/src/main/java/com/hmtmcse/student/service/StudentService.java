@@ -1,6 +1,7 @@
 package com.hmtmcse.student.service;
 
-import com.hmtmcse.student.dto.student.StudentDto;
+
+import com.hmtmcse.student.model.dto.student.StudentDetailDTO;
 import com.hmtmcse.student.model.entity.Student;
 import com.hmtmcse.student.repository.StudentRepository;
 import com.problemfighter.apiprocessor.rr.RequestResponse;
@@ -17,7 +18,7 @@ public class StudentService implements RequestResponse {
     private StudentRepository studentRepository;
 
 
-    public MessageResponse save(RequestData<StudentDto> data) {
+    public MessageResponse save(RequestData<StudentDetailDTO> data) {
         Student student = req().process(data, Student.class);
         studentRepository.save(student);
         return res().successMessage("Created");

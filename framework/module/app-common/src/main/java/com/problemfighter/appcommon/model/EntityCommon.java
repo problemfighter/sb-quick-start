@@ -1,4 +1,4 @@
-package com.hmtmcse.student.model.entity;
+package com.problemfighter.appcommon.model;
 
 import com.problemfighter.appcommon.AppCommonUtil;
 import org.springframework.data.annotation.CreatedBy;
@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @MappedSuperclass
-public abstract class Base {
+public abstract class EntityCommon {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,20 +25,11 @@ public abstract class Base {
 
     private Boolean isDeleted = false;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @CreatedBy
-    private Identity createdBy;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @LastModifiedBy
-    public Identity updatedBy;
-
-
     @PrePersist
     private void onBasePersist() {
         this.created = new Date();
         this.lastUpdated = new Date();
-        if (this.uuid == null || this.uuid.isEmpty()){
+        if (this.uuid == null || this.uuid.isEmpty()) {
             this.uuid = AppCommonUtil.uuid();
         }
     }

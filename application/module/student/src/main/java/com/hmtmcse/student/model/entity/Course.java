@@ -1,12 +1,14 @@
 package com.hmtmcse.student.model.entity;
 
 
+import com.problemfighter.appcommon.model.EntityCommon;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-public class Course extends Base {
+public class Course extends EntityCommon {
 
     public String name;
     public String code;
