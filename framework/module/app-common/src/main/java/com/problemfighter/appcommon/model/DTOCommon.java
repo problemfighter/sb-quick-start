@@ -4,7 +4,6 @@ package com.problemfighter.appcommon.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-
 import java.util.Date;
 
 public class DTOCommon {
@@ -29,7 +28,6 @@ public class DTOCommon {
     public Long getId() {
         return id;
     }
-
 
     @JsonProperty
     public String getUuid() {
