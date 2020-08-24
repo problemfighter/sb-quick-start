@@ -14,27 +14,47 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/department")
 public class ApiV1DepartmentController {
 
-    @RequestMapping(value = "/create", produces = "application/json", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public MessageResponse create() {
         return null;
     }
 
-    @RequestMapping(value = "/update", produces = "application/json", method = RequestMethod.PATCH)
-    public MessageResponse update() {
+    @RequestMapping(value = "/bulk-create", method = RequestMethod.POST)
+    public MessageResponse bulkCreate() {
         return null;
     }
 
-    @RequestMapping(value = "/list", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageableResponse<DepartmentDto> list() {
         return null;
     }
 
-    @RequestMapping(value = "/details", produces = "application/json", method = RequestMethod.GET)
+    @RequestMapping(value = "/detail-list", method = RequestMethod.GET)
+    public PageableResponse<DepartmentDto> detailList() {
+        return null;
+    }
+
+    @RequestMapping(value = "/details", method = RequestMethod.GET)
     public DetailsResponse<DepartmentDto> details() {
         return null;
     }
 
-    @RequestMapping(value = "/delete", produces = "application/json", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/update", method = RequestMethod.PATCH)
+    public MessageResponse update() {
+        return null;
+    }
+
+    @RequestMapping(value = "/bulk-update", method = RequestMethod.PATCH)
+    public MessageResponse bulkUpdate() {
+        return null;
+    }
+
+    @RequestMapping(value = "/bulk-delete", method = RequestMethod.DELETE)
+    public MessageResponse bulkDelete() {
+        return null;
+    }
+
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public MessageResponse delete() {
         return null;
     }
