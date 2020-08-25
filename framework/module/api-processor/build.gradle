@@ -10,7 +10,8 @@ ext {
 }
 
 def dependencyList = [
-        "java-object-copier"
+        "java-object-copier",
+        "app-common",
 ]
 
 dependencies {

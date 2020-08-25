@@ -1,34 +1,77 @@
 package com.hmtmcse.student.service;
 
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
+import com.hmtmcse.student.model.dto.department.DepartmentMasterDTO;
 import com.hmtmcse.student.model.entity.Department;
 import com.hmtmcse.student.repository.DepartmentRepository;
+import com.problemfighter.apiprocessor.inter.MethodStructure;
 import com.problemfighter.apiprocessor.rr.RequestResponse;
+import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
+import com.problemfighter.apiprocessor.rr.response.BulkResponse;
+import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
 import com.problemfighter.apiprocessor.rr.response.MessageResponse;
+import com.problemfighter.apiprocessor.rr.response.PageableResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Service
-public class DepartmentService implements RequestResponse {
+public class DepartmentService implements RequestResponse, MethodStructure<DepartmentMasterDTO, DepartmentDetailDTO> {
 
 
     @Autowired
-    DepartmentRepository departmentRepository;
+    private DepartmentRepository departmentRepository;
 
-    public MessageResponse save(RequestData<DepartmentDetailDTO> data) {
+    @Override
+    public MessageResponse create(RequestData<DepartmentDetailDTO> data) {
         Department department = req().process(data, Department.class);
         departmentRepository.save(department);
         return res().successMessage("Created");
     }
 
-    public MessageResponse bulkSave(){
-        List<Department> departmentList = new ArrayList<>();
-        departmentRepository.saveAll(departmentList);
-        return res().successMessage("Created");
+    @Override
+    public BulkResponse<DepartmentDetailDTO> bulkCreate(RequestBulkData<DepartmentDetailDTO> data) {
+        return null;
     }
 
+    @Override
+    public PageableResponse<DepartmentMasterDTO> list() {
+        return null;
+    }
 
+    @Override
+    public PageableResponse<DepartmentDetailDTO> detailList() {
+        return null;
+    }
+
+    @Override
+    public DetailsResponse<DepartmentDetailDTO> details(Long id) {
+        return null;
+    }
+
+    @Override
+    public MessageResponse update(RequestBulkData<DepartmentDetailDTO> data) {
+        return null;
+    }
+
+    @Override
+    public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentDetailDTO> data) {
+        return null;
+    }
+
+    @Override
+    public BulkResponse<Long> bulkDelete(RequestBulkData<Long> ids) {
+        return null;
+    }
+
+    @Override
+    public BulkResponse<Long> hardDelete(RequestBulkData<Long> ids) {
+        return null;
+    }
+
+    @Override
+    public MessageResponse delete(Long id) {
+        return null;
+    }
 }

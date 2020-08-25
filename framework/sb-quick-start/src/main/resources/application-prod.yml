@@ -1,0 +1,26 @@
+server:
+  port: 9901
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 2000
+        generate_statistics: true
+        order_inserts: true
+        order_updates: true
+  datasource:
+    url: 'jdbc:mysql://localhost:3306/spring_boot_bismillah'
+    username: 'root'
+    password: ''
+#  datasource:
+#    url: 'jdbc:h2:mem:sq-quick-start'
+#    username: 'sa'
+#    password: ''
+
+
+rewriteBatchedStatements: true

@@ -3,22 +3,28 @@ package com.hmtmcse.student.controller.api;
 
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
 import com.hmtmcse.student.model.dto.department.DepartmentMasterDTO;
+import com.hmtmcse.student.service.DepartmentService;
+import com.problemfighter.apiprocessor.inter.MethodStructure;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.BulkResponse;
 import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
 import com.problemfighter.apiprocessor.rr.response.MessageResponse;
 import com.problemfighter.apiprocessor.rr.response.PageableResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/v1/department")
-public class ApiV1DepartmentController {
+public class ApiV1DepartmentController implements MethodStructure<DepartmentMasterDTO, DepartmentDetailDTO> {
+
+    @Autowired
+    private DepartmentService departmentService;
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public MessageResponse create(@RequestBody RequestData<DepartmentDetailDTO> data) {
-        return null;
+        return departmentService.create(data);
     }
 
     @RequestMapping(value = "/bulk-create", method = RequestMethod.POST)
@@ -42,7 +48,7 @@ public class ApiV1DepartmentController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
-    public MessageResponse update() {
+    public MessageResponse update(@RequestBody RequestBulkData<DepartmentDetailDTO> data) {
         return null;
     }
 
