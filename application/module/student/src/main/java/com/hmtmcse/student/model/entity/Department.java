@@ -11,7 +11,10 @@ import java.util.Set;
 @Entity
 public class Department extends EntityCommon {
 
+    @Column(nullable = false)
     public String name;
+
+    @Column(unique = true)
     public String code;
 
     @Column(columnDefinition = "TEXT")

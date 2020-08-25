@@ -52,7 +52,12 @@ public class ApiV1DepartmentController {
     }
 
     @RequestMapping(value = "/bulk-delete", method = RequestMethod.DELETE)
-    public MessageResponse bulkDelete(@RequestBody RequestBulkData<Long> ids) {
+    public BulkResponse<Long> bulkDelete(@RequestBody RequestBulkData<Long> ids) {
+        return null;
+    }
+
+    @RequestMapping(value = "/hard-delete", method = RequestMethod.DELETE)
+    public BulkResponse<Long> hardDelete(@RequestBody RequestBulkData<Long> ids) {
         return null;
     }
 
