@@ -1,11 +1,14 @@
 package com.problemfighter.apiprocessor.rr;
 
+import com.hmtmcse.oc.common.InitCustomProcessor;
 import com.hmtmcse.oc.common.ObjectCopierException;
+import com.hmtmcse.oc.common.ProcessCustomCopy;
 import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.*;
+import com.problemfighter.appcommon.common.SpringContext;
 
 import java.util.LinkedHashMap;
 
@@ -15,6 +18,12 @@ public class ReqProcessor {
 
     public ReqProcessor() {
         this.objectCopier = new ObjectCopier();
+        this.objectCopier.initCustomProcessor = new InitCustomProcessor() {
+            @Override
+            public <S, D> ProcessCustomCopy<S, D> init(Class<?> klass, S source, D destination) {
+                return (ProcessCustomCopy<S, D>) SpringContext.getBean(klass);
+            }
+        };
     }
 
     public <D> D copySrcToDst(Object source, D destination) {

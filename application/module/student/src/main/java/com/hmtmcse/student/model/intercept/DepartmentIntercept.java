@@ -4,6 +4,7 @@ import com.hmtmcse.oc.common.ProcessCustomCopy;
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
 import com.hmtmcse.student.model.entity.Department;
 import com.hmtmcse.student.service.DepartmentService;
+import com.problemfighter.apiprocessor.common.ApiProcessorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +27,9 @@ public class DepartmentIntercept implements ProcessCustomCopy<DepartmentDetailDT
     @Override
     public void meAsSrc(DepartmentDetailDTO source, Department destination) {
         System.out.println("------------- meAsSrc");
+        if (source.code != null && departmentService.isCodeAlreadyExist(source.code)) {
+            ApiProcessorException.otherError("Department code already exist");
+        }
     }
 
     @Override

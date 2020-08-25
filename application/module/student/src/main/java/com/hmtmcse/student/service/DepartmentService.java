@@ -21,6 +21,15 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
     @Autowired
     private DepartmentRepository departmentRepository;
 
+
+    public Boolean isCodeAlreadyExist(String code) {
+        Department department = departmentRepository.findDepartmentByCode(code);
+        if (department == null) {
+            return false;
+        }
+        return true;
+    }
+
     @Override
     public MessageResponse create(RequestData<DepartmentDetailDTO> data) {
         Department department = req().process(data, Department.class);

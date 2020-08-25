@@ -1,10 +1,13 @@
 package com.problemfighter.apiprocessor.rr;
 
+import com.hmtmcse.oc.common.InitCustomProcessor;
 import com.hmtmcse.oc.common.ObjectCopierException;
+import com.hmtmcse.oc.common.ProcessCustomCopy;
 import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.exception.ErrorCode;
 import com.problemfighter.apiprocessor.exception.ExceptionMessage;
 import com.problemfighter.apiprocessor.rr.response.*;
+import com.problemfighter.appcommon.common.SpringContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +18,12 @@ public class ResProcessor {
 
     public ResProcessor() {
         this.objectCopier = new ObjectCopier();
+        this.objectCopier.initCustomProcessor = new InitCustomProcessor() {
+            @Override
+            public <S, D> ProcessCustomCopy<S, D> init(Class<?> klass, S source, D destination) {
+                return (ProcessCustomCopy<S, D>) SpringContext.getBean(klass);
+            }
+        };
     }
 
     public static ResProcessor instance() {
@@ -113,10 +122,14 @@ public class ResProcessor {
         BulkResponse<D> bulkResponse = new BulkResponse<>();
         processed.addSuccessDataList(entityToDTO(processed.dstList, dto));
         bulkResponse.status = Status.partial;
-        if (processed.success == null  || processed.success.size() == 0) {
+        bulkResponse.code = ErrorCode.partial;
+        if (processed.success == null || processed.success.size() == 0) {
             bulkResponse.status = Status.error;
+            bulkResponse.code = ErrorCode.error;
+            processed.success = null;
         } else if (processed.failed == null) {
             bulkResponse.status = Status.success;
+            bulkResponse.code = ErrorCode.success;
         }
         bulkResponse.success = processed.success;
         bulkResponse.failed = processed.failed;

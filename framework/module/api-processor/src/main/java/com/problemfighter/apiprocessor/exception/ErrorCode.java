@@ -3,6 +3,7 @@ package com.problemfighter.apiprocessor.exception;
 public final class ErrorCode {
 
     public static final String success = "1200";
+    public static final String partial = "1212";
 
     public static final String badRequest = "1400";
     public static final String unauthorized = "1401";
