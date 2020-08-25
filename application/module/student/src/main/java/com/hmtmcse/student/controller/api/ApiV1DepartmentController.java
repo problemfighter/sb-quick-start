@@ -29,7 +29,7 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
 
     @RequestMapping(value = "/bulk-create", method = RequestMethod.POST)
     public BulkResponse<DepartmentDetailDTO> bulkCreate(@RequestBody RequestBulkData<DepartmentDetailDTO> data) {
-        return null;
+        return departmentService.bulkCreate(data);
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)

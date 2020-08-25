@@ -2,10 +2,12 @@ package com.problemfighter.appcommon.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DTOCommon {
 
     @ApiModelProperty(readOnly = true)

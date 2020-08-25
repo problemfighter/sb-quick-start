@@ -3,7 +3,9 @@ package com.problemfighter.apiprocessor.rr;
 import com.hmtmcse.oc.common.ObjectCopierException;
 import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
+import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
+import com.problemfighter.apiprocessor.rr.response.*;
 
 import java.util.LinkedHashMap;
 
@@ -60,27 +62,41 @@ public class ReqProcessor {
     }
 
     public <D> D copyOnly(Object source, Class<D> destination) throws ApiProcessorException {
-        return instance().copySrcToDst(source, destination);
+        return copySrcToDst(source, destination);
     }
 
     public <D> D copyOnly(Object source, D destination) throws ApiProcessorException {
-        return instance().copySrcToDst(source, destination);
+        return copySrcToDst(source, destination);
     }
 
     public <D> D process(Object source, Class<D> destination) {
-        return instance().copySrcToDstValidate(source, destination);
+        return copySrcToDstValidate(source, destination);
     }
 
     public <D> D process(Object source, D destination) {
-        return instance().copySrcToDstValidate(source, destination);
+        return copySrcToDstValidate(source, destination);
     }
 
     public <D> D process(RequestData<?> requestData, D destination) {
-        return instance().copySrcToDstValidate(requestData.getData(), destination);
+        return copySrcToDstValidate(requestData.getData(), destination);
     }
 
     public <D> D process(RequestData<?> requestData, Class<D> destination) {
-        return instance().copySrcToDstValidate(requestData.getData(), destination);
+        return copySrcToDstValidate(requestData.getData(), destination);
+    }
+
+
+    public <D, E> BulkErrorDst<D, E> bulkProcess(RequestBulkData<D> requestData, Class<E> destination) {
+        BulkErrorDst<D, E> errorDst = new BulkErrorDst<>();
+        for (D object : requestData.getData()) {
+            try {
+                errorDst.addToList(copySrcToDstValidate(object, destination));
+            } catch (ApiProcessorException e) {
+                MessageResponse messageResponse = (MessageResponse) e.getError();
+                errorDst.addFailed(new BulkErrorData<D>().addError(messageResponse.error).addObject(object));
+            }
+        }
+        return errorDst;
     }
 
 }

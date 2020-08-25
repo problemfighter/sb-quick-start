@@ -8,12 +8,10 @@ import com.problemfighter.apiprocessor.inter.MethodStructure;
 import com.problemfighter.apiprocessor.rr.RequestResponse;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
-import com.problemfighter.apiprocessor.rr.response.BulkResponse;
-import com.problemfighter.apiprocessor.rr.response.DetailsResponse;
-import com.problemfighter.apiprocessor.rr.response.MessageResponse;
-import com.problemfighter.apiprocessor.rr.response.PageableResponse;
+import com.problemfighter.apiprocessor.rr.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -32,7 +30,16 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
 
     @Override
     public BulkResponse<DepartmentDetailDTO> bulkCreate(RequestBulkData<DepartmentDetailDTO> data) {
-        return null;
+        BulkErrorDst<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
+        if (bulkErrorDst.dstList.size() != 0) {
+            departmentRepository.saveAll(bulkErrorDst.dstList);
+//            try {
+//                departmentRepository.saveAll(bulkErrorDst.dstList);
+//            } catch (Exception e) {
+//
+//            }
+        }
+        return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.problemfighter.apiprocessor.rr;
 
+import com.hmtmcse.oc.common.ObjectCopierException;
 import com.hmtmcse.oc.copier.ObjectCopier;
 import com.problemfighter.apiprocessor.exception.ErrorCode;
 import com.problemfighter.apiprocessor.exception.ExceptionMessage;
 import com.problemfighter.apiprocessor.rr.response.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ResProcessor {
 
@@ -83,6 +87,40 @@ public class ResProcessor {
 
     public static MessageResponse errorMessage(String message, String errorCode) {
         return instance().errorMessageResponse(message, errorCode);
+    }
+
+    public <E, D> D entityToDTO(E entity, Class<D> dto) throws ObjectCopierException {
+        return objectCopier.copy(entity, dto);
+    }
+
+    public <E, D> List<D> entityToDTO(List<E> entities, Class<D> dto) {
+        List<D> dtoList = new ArrayList<>();
+        if (entities != null) {
+            for (E entity : entities) {
+                try {
+                    D dtoObject = objectCopier.copy(entity, dto);
+                    if (dtoObject != null) {
+                        dtoList.add(dtoObject);
+                    }
+                } catch (ObjectCopierException ignore) {
+                }
+            }
+        }
+        return dtoList;
+    }
+
+    public <D> BulkResponse<D> bulkResponse(BulkErrorDst<D, ?> processed, Class<D> dto) {
+        BulkResponse<D> bulkResponse = new BulkResponse<>();
+        processed.addSuccessDataList(entityToDTO(processed.dstList, dto));
+        bulkResponse.status = Status.partial;
+        if (processed.success == null  || processed.success.size() == 0) {
+            bulkResponse.status = Status.error;
+        } else if (processed.failed == null) {
+            bulkResponse.status = Status.success;
+        }
+        bulkResponse.success = processed.success;
+        bulkResponse.failed = processed.failed;
+        return bulkResponse;
     }
 
     public static PageableResponse<?> pageableResponse() {
