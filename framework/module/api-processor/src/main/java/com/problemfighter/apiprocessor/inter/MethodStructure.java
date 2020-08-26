@@ -16,8 +16,8 @@ public interface MethodStructure<M, D> {
 //    PageableResponse<M> list();
 //    PageableResponse<D> detailList();
     DetailsResponse<D> details(Long id);
-    MessageResponse update(RequestBulkData<D> data);
-    BulkResponse<D> bulkUpdate(RequestBulkData<D> data);
+//    MessageResponse update(RequestBulkData<D> data);
+//    BulkResponse<D> bulkUpdate(RequestBulkData<D> data);
     BulkResponse<Long> bulkDelete(RequestBulkData<Long> ids);
     BulkResponse<Long> hardDelete(RequestBulkData<Long> ids);
     MessageResponse delete(Long id);

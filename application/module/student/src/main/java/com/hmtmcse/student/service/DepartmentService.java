@@ -2,6 +2,7 @@ package com.hmtmcse.student.service;
 
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
 import com.hmtmcse.student.model.dto.department.DepartmentMasterDTO;
+import com.hmtmcse.student.model.dto.department.DepartmentUpdateDTO;
 import com.hmtmcse.student.model.entity.Department;
 import com.hmtmcse.student.repository.DepartmentRepository;
 import com.problemfighter.apiprocessor.inter.MethodStructure;
@@ -62,13 +63,15 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().detailsResponse(departmentRepository.findById(id), DepartmentDetailDTO.class, "Item not found");
     }
 
-    @Override
-    public MessageResponse update(RequestBulkData<DepartmentDetailDTO> data) {
+//    @Override
+    public MessageResponse update(RequestData<DepartmentUpdateDTO> data) {
+        String message = "Content not found";
+        departmentRepository.findById(data.data.id);
         return null;
     }
 
-    @Override
-    public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentDetailDTO> data) {
+//    @Override
+    public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
         return null;
     }
 

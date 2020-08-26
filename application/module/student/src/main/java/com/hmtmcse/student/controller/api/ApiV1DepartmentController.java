@@ -3,6 +3,7 @@ package com.hmtmcse.student.controller.api;
 
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
 import com.hmtmcse.student.model.dto.department.DepartmentMasterDTO;
+import com.hmtmcse.student.model.dto.department.DepartmentUpdateDTO;
 import com.hmtmcse.student.service.DepartmentService;
 import com.problemfighter.apiprocessor.inter.MethodStructure;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
@@ -63,13 +64,13 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
-    public MessageResponse update(@RequestBody RequestBulkData<DepartmentDetailDTO> data) {
-        return null;
+    public MessageResponse update(@RequestBody RequestData<DepartmentUpdateDTO> data) {
+        return departmentService.update(data);
     }
 
     @RequestMapping(value = "/bulk-update", method = RequestMethod.PATCH)
-    public BulkResponse<DepartmentDetailDTO> bulkUpdate(@RequestBody RequestBulkData<DepartmentDetailDTO> data) {
-        return null;
+    public BulkResponse<DepartmentDetailDTO> bulkUpdate(@RequestBody RequestBulkData<DepartmentUpdateDTO> data) {
+        return departmentService.bulkUpdate(data);
     }
 
     @RequestMapping(value = "/bulk-delete", method = RequestMethod.DELETE)
