@@ -44,4 +44,8 @@ public class ApiProcessorException extends RuntimeException {
     public static void otherError(String errorMessage) {
         throwException(ResProcessor.otherError(errorMessage));
     }
+
+    public static void error(String message) {
+        throwException(ResProcessor.errorMessage(message));
+    }
 }

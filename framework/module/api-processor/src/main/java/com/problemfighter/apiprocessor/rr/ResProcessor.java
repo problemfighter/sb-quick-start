@@ -21,9 +21,6 @@ import java.util.Optional;
 public class ResProcessor {
 
     private ObjectCopier objectCopier;
-    public static Integer itemPerPage = 15;
-    public static String sortField = "id";
-    public static Sort.Direction sortOrder = Sort.Direction.DESC;
 
     public ResProcessor() {
         this.objectCopier = new ObjectCopier();
@@ -186,28 +183,9 @@ public class ResProcessor {
         pageableResponse.addPagination(pageable.getPageNumber(), pageable.getPageSize())
                 .setTotal(page.getTotalElements())
                 .setTotalPage(page.getTotalPages());
+        pageableResponse.success();
         return pageableResponse;
     }
-
-    public PageRequest paginationNSort(Integer page, Integer size, String sort, String field) {
-        if (page == null) {
-            page = 0;
-        }
-        if (size == null) {
-            size = itemPerPage;
-        }
-
-        Sort.Direction order = sortOrder;
-        if (sort != null && sort.equals("asc")) {
-            order = Sort.Direction.ASC;
-        }
-
-        if (field == null || field.equals("")) {
-            field = sortField;
-        }
-        return PageRequest.of(page, size, order, field);
-    }
-
 
     public <E, D> DetailsResponse<D> detailsResponse(E source, Class<D> dto, String message) {
         DetailsResponse<D> detailsResponse = new DetailsResponse<>();

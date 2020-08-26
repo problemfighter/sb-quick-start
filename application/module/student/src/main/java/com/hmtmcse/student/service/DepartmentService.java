@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 
 
 @Service
@@ -48,14 +49,14 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
     }
 
-//    @Override
+    //    @Override
     public PageableResponse<DepartmentMasterDTO> list(Integer page, Integer size, String sort, String field, String search) {
-        return res().pageableResponse(departmentRepository.list(res().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
+        return res().pageableResponse(departmentRepository.list(req().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
     }
 
-//    @Override
+    //    @Override
     public PageableResponse<DepartmentDetailDTO> detailList(Integer page, Integer size, String sort, String field, String search) {
-        return res().pageableResponse(departmentRepository.list(res().paginationNSort(page, size, sort, field)), DepartmentDetailDTO.class);
+        return res().pageableResponse(departmentRepository.list(req().paginationNSort(page, size, sort, field)), DepartmentDetailDTO.class);
     }
 
     @Override
@@ -63,14 +64,16 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().detailsResponse(departmentRepository.findById(id), DepartmentDetailDTO.class, "Item not found");
     }
 
-//    @Override
+    //    @Override
     public MessageResponse update(RequestData<DepartmentUpdateDTO> data) {
-        String message = "Content not found";
-        departmentRepository.findById(data.data.id);
-        return null;
+        Optional<Department> optional = departmentRepository.findById(req().validateNGetId(data, "Id not found."));
+        Department department = req().validateNOp2Entity(optional, "Content not found");
+        department = req().process(data, department);
+        departmentRepository.save(department);
+        return res().successMessage("Updated");
     }
 
-//    @Override
+    //    @Override
     public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
         return null;
     }

@@ -23,6 +23,6 @@ public class DepartmentIntercept implements ProcessCustomCopy<Department, Depart
 
     @Override
     public void meAsDst(Department source, DepartmentDetailDTO destination) {
-
+        System.out.println("======= meAsDst =======");
     }
 }

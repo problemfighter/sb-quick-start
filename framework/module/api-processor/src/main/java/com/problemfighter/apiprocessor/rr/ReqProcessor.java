@@ -4,17 +4,26 @@ import com.hmtmcse.oc.common.InitCustomProcessor;
 import com.hmtmcse.oc.common.ObjectCopierException;
 import com.hmtmcse.oc.common.ProcessCustomCopy;
 import com.hmtmcse.oc.copier.ObjectCopier;
+import com.hmtmcse.oc.reflection.ReflectionProcessor;
 import com.problemfighter.apiprocessor.common.ApiProcessorException;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.*;
 import com.problemfighter.appcommon.common.SpringContext;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
+import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
+import java.util.Optional;
 
 public class ReqProcessor {
 
     private ObjectCopier objectCopier;
+    private ReflectionProcessor reflectionProcessor;
+    public static Integer itemPerPage = 15;
+    public static String sortField = "id";
+    public static Sort.Direction sortOrder = Sort.Direction.DESC;
 
     public ReqProcessor() {
         this.objectCopier = new ObjectCopier();
@@ -24,6 +33,7 @@ public class ReqProcessor {
                 return (ProcessCustomCopy<S, D>) SpringContext.getBean(klass);
             }
         };
+        this.reflectionProcessor = new ReflectionProcessor();
     }
 
     public <D> D copySrcToDst(Object source, D destination) {
@@ -106,6 +116,56 @@ public class ReqProcessor {
             }
         }
         return errorDst;
+    }
+
+    public <O> Long validateNGetId(RequestData<O> data, String message) {
+        Long id = getIdFieldValue(data.getData());
+        if (id == null && message != null) {
+            ApiProcessorException.error(message);
+        }
+        return id;
+    }
+
+    public <E> E validateNOp2Entity(Optional<E> optional, String message){
+        if (optional.isEmpty() && message != null){
+            ApiProcessorException.error(message);
+        }
+        return optional.get();
+    }
+
+    public <O> Long getIdFieldValue(O object) {
+        return getFieldValue(object, "id", Long.class);
+    }
+
+    private <T, O> T getFieldValue(O object, String name, Class<T> type) {
+        try {
+            Field field = reflectionProcessor.getFieldFromObject(object, name);
+            if (field == null || field.getType() != type) {
+                return null;
+            }
+            return (T) field.get(object);
+        } catch (IllegalAccessException ignore) {
+            return null;
+        }
+    }
+
+    public PageRequest paginationNSort(Integer page, Integer size, String sort, String field) {
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = itemPerPage;
+        }
+
+        Sort.Direction order = sortOrder;
+        if (sort != null && sort.equals("asc")) {
+            order = Sort.Direction.ASC;
+        }
+
+        if (field == null || field.equals("")) {
+            field = sortField;
+        }
+        return PageRequest.of(page, size, order, field);
     }
 
 }

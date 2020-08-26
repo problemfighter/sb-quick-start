@@ -9,16 +9,5 @@ import io.swagger.annotations.ApiModel;
 @ApiModel(value = "details", description = "status success response")
 public class DetailsResponse<T> extends ErrorAndBaseData {
     public T data;
-
-
-    public void success() {
-        this.code = ErrorCode.success;
-        this.status = Status.success;
-    }
-
-    public void error() {
-        this.code = ErrorCode.error;
-        this.status = Status.error;
-    }
 }
 
