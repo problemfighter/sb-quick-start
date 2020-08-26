@@ -8,6 +8,8 @@ import com.problemfighter.apiprocessor.exception.ErrorCode;
 import com.problemfighter.apiprocessor.exception.ExceptionMessage;
 import com.problemfighter.apiprocessor.rr.response.*;
 import com.problemfighter.appcommon.common.SpringContext;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +114,7 @@ public class ResProcessor {
                         dtoList.add(dtoObject);
                     }
                 } catch (ObjectCopierException ignore) {
+                    ignore.printStackTrace();
                 }
             }
         }
@@ -136,11 +139,17 @@ public class ResProcessor {
         return bulkResponse;
     }
 
-    public static PageableResponse<?> pageableResponse() {
-        return null;
+    public <E, D> PageableResponse<D> pageableResponse(Page<E> page, Class<D> dto) {
+        PageableResponse<D> pageableResponse = new PageableResponse<>();
+        pageableResponse.data = entityToDTO(page.getContent(), dto);
+        Pageable pageable = page.getPageable();
+        pageableResponse.addPagination(pageable.getPageNumber(), pageable.getPageSize())
+                .setTotal(page.getTotalElements())
+                .setTotalPage(page.getTotalPages());
+        return pageableResponse;
     }
 
-    public static DetailsResponse<?> detailsResponse() {
+    public DetailsResponse<?> detailsResponse() {
         return null;
     }
 

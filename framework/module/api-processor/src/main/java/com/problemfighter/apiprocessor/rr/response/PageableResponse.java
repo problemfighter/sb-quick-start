@@ -10,4 +10,13 @@ import java.util.List;
 public class PageableResponse<T> extends ErrorAndBaseData {
     public List<T> data;
     public PaginationData pagination;
+
+    public PaginationData addPagination(Integer page, Integer itemPerPage){
+        if (pagination == null){
+            pagination = new PaginationData();
+        }
+        pagination.page = page;
+        pagination.itemPerPage = itemPerPage;
+        return pagination;
+    }
 }

@@ -34,7 +34,7 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageableResponse<DepartmentMasterDTO> list() {
-        return null;
+        return departmentService.list();
     }
 
     @RequestMapping(value = "/detail-list", method = RequestMethod.GET)

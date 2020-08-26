@@ -10,6 +10,7 @@ import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 import com.problemfighter.apiprocessor.rr.request.RequestData;
 import com.problemfighter.apiprocessor.rr.response.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -42,18 +43,14 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         BulkErrorDst<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
         if (bulkErrorDst.dstList.size() != 0) {
             departmentRepository.saveAll(bulkErrorDst.dstList);
-//            try {
-//                departmentRepository.saveAll(bulkErrorDst.dstList);
-//            } catch (Exception e) {
-//
-//            }
         }
         return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
     }
 
     @Override
     public PageableResponse<DepartmentMasterDTO> list() {
-        return null;
+        departmentRepository.list(PageRequest.of(1, 10));
+        return res().pageableResponse(departmentRepository.list(PageRequest.of(1, 10)), DepartmentMasterDTO.class);
     }
 
     @Override
