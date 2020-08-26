@@ -107,7 +107,7 @@ public class ResProcessor {
         return instance().errorMessageResponse(message, errorCode);
     }
 
-    public <E, D> D entityToDTO(E entity, Class<D> dto) throws ObjectCopierException {
+    private <E, D> D convertEntityToDTO(E entity, Class<D> dto) throws ObjectCopierException {
         return objectCopier.copy(entity, dto);
     }
 
@@ -126,6 +126,39 @@ public class ResProcessor {
             }
         }
         return dtoList;
+    }
+
+    private <E> Boolean isEmptyEntity(E entity) {
+        if (entity == null) {
+            return true;
+        } else if (entity instanceof Optional) {
+            return ((Optional<?>) entity).isEmpty();
+        }
+        return false;
+    }
+
+    private <E> E getEntityValue(E entity) {
+        if (entity == null) {
+            return null;
+        } else if (entity instanceof Optional) {
+            Optional<E> optional = (Optional<E>) entity;
+            if (optional.isEmpty()) {
+                return null;
+            } else {
+                return optional.get();
+            }
+        }
+        return entity;
+    }
+
+    // ===================================================== ALL Public Method ============================================================================
+
+    public <E, D> D entityToDTO(E entity, Class<D> dto) {
+        try {
+            return convertEntityToDTO(entity, dto);
+        } catch (ObjectCopierException ignore) {
+            return null;
+        }
     }
 
     public <D> BulkResponse<D> bulkResponse(BulkErrorDst<D, ?> processed, Class<D> dto) {
@@ -175,35 +208,13 @@ public class ResProcessor {
         return PageRequest.of(page, size, order, field);
     }
 
-    private <E> Boolean isEmptyEntity(E entity) {
-        if (entity == null) {
-            return true;
-        } else if (entity instanceof Optional) {
-            return ((Optional<?>) entity).isEmpty();
-        }
-        return false;
-    }
-
-    private <E> E getEntityValue(E entity) {
-        if (entity == null) {
-            return null;
-        } else if (entity instanceof Optional) {
-            Optional<E> optional = (Optional<E>) entity;
-            if (optional.isEmpty()) {
-                return null;
-            } else {
-                return optional.get();
-            }
-        }
-        return entity;
-    }
 
     public <E, D> DetailsResponse<D> detailsResponse(E source, Class<D> dto, String message) {
         DetailsResponse<D> detailsResponse = new DetailsResponse<>();
         try {
             source = getEntityValue(source);
             if (source != null) {
-                detailsResponse.data = entityToDTO(source, dto);
+                detailsResponse.data = convertEntityToDTO(source, dto);
                 detailsResponse.success();
             }
         } catch (ObjectCopierException e) {
