@@ -21,6 +21,3 @@ spring:
 #    url: 'jdbc:h2:mem:sq-quick-start'
 #    username: 'sa'
 #    password: ''
-
-
-rewriteBatchedStatements: true
