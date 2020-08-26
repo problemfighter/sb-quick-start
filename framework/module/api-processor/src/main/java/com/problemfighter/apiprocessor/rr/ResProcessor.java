@@ -13,8 +13,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ResProcessor {
 
@@ -173,8 +175,49 @@ public class ResProcessor {
         return PageRequest.of(page, size, order, field);
     }
 
-    public DetailsResponse<?> detailsResponse() {
-        return null;
+    private <E> Boolean isEmptyEntity(E entity) {
+        if (entity == null) {
+            return true;
+        } else if (entity instanceof Optional) {
+            return ((Optional<?>) entity).isEmpty();
+        }
+        return false;
+    }
+
+    private <E> E getEntityValue(E entity) {
+        if (entity == null) {
+            return null;
+        } else if (entity instanceof Optional) {
+            Optional<E> optional = (Optional<E>) entity;
+            if (optional.isEmpty()) {
+                return null;
+            } else {
+                return optional.get();
+            }
+        }
+        return entity;
+    }
+
+    public <E, D> DetailsResponse<D> detailsResponse(E source, Class<D> dto, String message) {
+        DetailsResponse<D> detailsResponse = new DetailsResponse<>();
+        try {
+            source = getEntityValue(source);
+            if (source != null) {
+                detailsResponse.data = entityToDTO(source, dto);
+                detailsResponse.success();
+            }
+        } catch (ObjectCopierException e) {
+            detailsResponse.addErrorMessage(e.getMessage());
+        }
+        if (message != null && detailsResponse.data == null) {
+            detailsResponse.addErrorMessage(message);
+            detailsResponse.error();
+        }
+        return detailsResponse;
+    }
+
+    public <E, D> DetailsResponse<D> detailsResponse(E source, Class<D> dto) {
+        return detailsResponse(source, dto, null);
     }
 
 }

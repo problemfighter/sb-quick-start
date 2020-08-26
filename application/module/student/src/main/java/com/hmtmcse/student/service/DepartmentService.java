@@ -52,14 +52,14 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().pageableResponse(departmentRepository.list(res().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
     }
 
-    @Override
-    public PageableResponse<DepartmentDetailDTO> detailList() {
-        return null;
+//    @Override
+    public PageableResponse<DepartmentDetailDTO> detailList(Integer page, Integer size, String sort, String field, String search) {
+        return res().pageableResponse(departmentRepository.list(res().paginationNSort(page, size, sort, field)), DepartmentDetailDTO.class);
     }
 
     @Override
     public DetailsResponse<DepartmentDetailDTO> details(Long id) {
-        return null;
+        return res().detailsResponse(departmentRepository.findById(id), DepartmentDetailDTO.class, "Item not found");
     }
 
     @Override

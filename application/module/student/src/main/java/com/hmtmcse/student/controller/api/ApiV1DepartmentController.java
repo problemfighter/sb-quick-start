@@ -47,13 +47,19 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
     }
 
     @RequestMapping(value = "/detail-list", method = RequestMethod.GET)
-    public PageableResponse<DepartmentDetailDTO> detailList() {
-        return null;
+    public PageableResponse<DepartmentDetailDTO> detailList(
+            @RequestParam(value = "page", defaultValue = "") Integer page,
+            @RequestParam(value = "size", defaultValue = "") Integer size,
+            @RequestParam(value = "sort", defaultValue = "") String sort,
+            @RequestParam(value = "field", defaultValue = "") String field,
+            @RequestParam(value = "search", defaultValue = "") String search
+    ) {
+        return departmentService.detailList(page, size, sort, field, search);
     }
 
     @RequestMapping(value = "/details/{id}", method = RequestMethod.GET)
     public DetailsResponse<DepartmentDetailDTO> details(@PathVariable(name = "id") Long id) {
-        return null;
+        return departmentService.details(id);
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.PATCH)
