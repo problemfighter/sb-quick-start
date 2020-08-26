@@ -13,7 +13,7 @@ public interface MethodStructure<M, D> {
 
     MessageResponse create(RequestData<D> data);
     BulkResponse<D> bulkCreate(RequestBulkData<D> data);
-    PageableResponse<M> list();
+//    PageableResponse<M> list();
     PageableResponse<D> detailList();
     DetailsResponse<D> details(Long id);
     MessageResponse update(RequestBulkData<D> data);

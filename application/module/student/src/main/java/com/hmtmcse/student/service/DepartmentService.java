@@ -47,10 +47,9 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
     }
 
-    @Override
-    public PageableResponse<DepartmentMasterDTO> list() {
-        departmentRepository.list(PageRequest.of(1, 10));
-        return res().pageableResponse(departmentRepository.list(PageRequest.of(1, 10)), DepartmentMasterDTO.class);
+//    @Override
+    public PageableResponse<DepartmentMasterDTO> list(Integer page, Integer size, String sort, String field, String search) {
+        return res().pageableResponse(departmentRepository.list(res().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
     }
 
     @Override

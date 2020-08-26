@@ -9,7 +9,9 @@ import com.problemfighter.apiprocessor.exception.ExceptionMessage;
 import com.problemfighter.apiprocessor.rr.response.*;
 import com.problemfighter.appcommon.common.SpringContext;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,9 @@ import java.util.List;
 public class ResProcessor {
 
     private ObjectCopier objectCopier;
+    public static Integer itemPerPage = 15;
+    public static String sortField = "id";
+    public static Sort.Direction sortOrder = Sort.Direction.DESC;
 
     public ResProcessor() {
         this.objectCopier = new ObjectCopier();
@@ -147,6 +152,25 @@ public class ResProcessor {
                 .setTotal(page.getTotalElements())
                 .setTotalPage(page.getTotalPages());
         return pageableResponse;
+    }
+
+    public PageRequest paginationNSort(Integer page, Integer size, String sort, String field) {
+        if (page == null) {
+            page = 0;
+        }
+        if (size == null) {
+            size = itemPerPage;
+        }
+
+        Sort.Direction order = sortOrder;
+        if (sort != null && sort.equals("asc")) {
+            order = Sort.Direction.ASC;
+        }
+
+        if (field == null || field.equals("")) {
+            field = sortField;
+        }
+        return PageRequest.of(page, size, order, field);
     }
 
     public DetailsResponse<?> detailsResponse() {

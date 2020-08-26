@@ -14,6 +14,9 @@ import com.problemfighter.apiprocessor.rr.response.PageableResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/v1/department")
@@ -33,8 +36,14 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public PageableResponse<DepartmentMasterDTO> list() {
-        return departmentService.list();
+    public PageableResponse<DepartmentMasterDTO> list(
+            @RequestParam(value = "page", defaultValue = "") Integer page,
+            @RequestParam(value = "size", defaultValue = "") Integer size,
+            @RequestParam(value = "sort", defaultValue = "") String sort,
+            @RequestParam(value = "field", defaultValue = "") String field,
+            @RequestParam(value = "search", defaultValue = "") String search
+    ) {
+        return departmentService.list(page, size, sort, field, search);
     }
 
     @RequestMapping(value = "/detail-list", method = RequestMethod.GET)
