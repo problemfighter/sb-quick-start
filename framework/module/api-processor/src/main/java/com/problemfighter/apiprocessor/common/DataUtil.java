@@ -3,8 +3,7 @@ package com.problemfighter.apiprocessor.common;
 import com.hmtmcse.oc.reflection.ReflectionProcessor;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DataUtil {
 
@@ -12,6 +11,31 @@ public class DataUtil {
 
     public DataUtil() {
         reflectionProcessor = new ReflectionProcessor();
+    }
+
+    public <D> List<Long> getAllId(List<D> list) {
+        return getFieldValues(list, "id", Long.class);
+    }
+
+    public <D, L> List<L> getFieldValues(List<D> list, String name, Class<L> klass) {
+        List<L> response = new ArrayList<>();
+        Field field;
+        for (D data : list) {
+            try {
+                field = reflectionProcessor.getAnyFieldFromObject(data, name);
+                if (field != null && field.getType() == klass) {
+                    field.setAccessible(true);
+                    response.add((L) field.get(data));
+                }
+            } catch (IllegalAccessException ignore) {
+
+            }
+        }
+        return response;
+    }
+
+    public <D> List<D> markAsDeleted(List<D> dataList) {
+        return updateProperty(dataList, Map.of("isDeleted", true));
     }
 
     public <D> List<D> updateProperty(List<D> dataList, Map<String, Object> fieldValue) {
