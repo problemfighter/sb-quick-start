@@ -1,5 +1,7 @@
 package com.problemfighter.apiprocessor.rr;
 
+import com.problemfighter.apiprocessor.common.DataUtil;
+
 public interface RequestResponse {
 
     default ReqProcessor req() {
@@ -8,5 +10,9 @@ public interface RequestResponse {
 
     default ResProcessor res() {
         return ResProcessor.instance();
+    }
+
+    default DataUtil du(){
+        return DataUtil.instance();
     }
 }

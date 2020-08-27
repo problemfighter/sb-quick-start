@@ -17,6 +17,9 @@
 ** Hibernate or JPA or Database Error Check
 * Bulk Delete
 * Export to CSV
-* Import from CSV (Save update both will allowed)
+* Import from CSV (Save & update both will allowed)
 
 * Relation Database
+* CI/CD with gitlab
+* Multi Database
+* Elastic search
