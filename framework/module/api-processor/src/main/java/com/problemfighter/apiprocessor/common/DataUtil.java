@@ -53,6 +53,29 @@ public class DataUtil {
         return dataList;
     }
 
+    public <D> D getObjectFromList(List<D> dataList, String fieldName, Object dataObject){
+        Field listField, dataField;
+        for (D data: dataList ){
+            try{
+                listField = reflectionProcessor.getAnyFieldFromObject(data, fieldName);
+                dataField = reflectionProcessor.getAnyFieldFromObject(dataObject, fieldName);
+                if (listField != null && dataField != null && listField.getType() == dataField.getType() && listField.get(data).equals(dataField.get(dataObject))){
+                    return (D) listField.get(data);
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public <E, D> Iterable<E> merge(Iterable<E> mergeTo, List<D> dataFrom, String compareField) {
+        for (E data : mergeTo) {
+
+        }
+        return mergeTo;
+    }
+
     public <D> D markAsDeleted(D data) {
         return updateProperty(data, Map.of("isDeleted", true));
     }

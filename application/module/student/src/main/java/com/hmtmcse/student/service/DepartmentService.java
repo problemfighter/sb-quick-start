@@ -1,5 +1,6 @@
 package com.hmtmcse.student.service;
 
+import com.hmtmcse.oc.annotation.DataMapping;
 import com.hmtmcse.student.model.dto.department.DepartmentDetailDTO;
 import com.hmtmcse.student.model.dto.department.DepartmentMasterDTO;
 import com.hmtmcse.student.model.dto.department.DepartmentUpdateDTO;
@@ -41,14 +42,6 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().successMessage("Created");
     }
 
-    @Override
-    public BulkResponse<DepartmentDetailDTO> bulkCreate(RequestBulkData<DepartmentDetailDTO> data) {
-        BulkErrorDst<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
-        if (bulkErrorDst.dstList.size() != 0) {
-            departmentRepository.saveAll(bulkErrorDst.dstList);
-        }
-        return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
-    }
 
     //    @Override
     public PageableResponse<DepartmentMasterDTO> list(Integer page, Integer size, String sort, String field, String search) {
@@ -82,9 +75,18 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().successMessage("Updated");
     }
 
+    @Override
+    public BulkResponse<DepartmentDetailDTO> bulkCreate(RequestBulkData<DepartmentDetailDTO> data) {
+        BulkErrorDst<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
+        if (bulkErrorDst.dstList.size() != 0) {
+            departmentRepository.saveAll(bulkErrorDst.dstList);
+        }
+        return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
+    }
+
     //    @Override
     public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
-        BulkErrorDst<DepartmentUpdateDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
+        BulkErrorDst<DepartmentUpdateDTO, DepartmentUpdateDTO> bulkErrorDst = req().bulkProcess(data, DepartmentUpdateDTO.class);
         List<Long> ids = du().getAllId(bulkErrorDst.dstList);
         Iterable<Department> departments = departmentRepository.findAllById(ids);
         return null;

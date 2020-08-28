@@ -135,10 +135,12 @@ public class ReqProcessor {
     }
 
     public <E> E validateNOp2Entity(Optional<E> optional, String message) {
-        if (optional.isEmpty() && message != null) {
+        if (optional.isPresent()) {
+            return optional.get();
+        } else if (message != null) {
             ApiProcessorException.error(message);
         }
-        return optional.get();
+        return null;
     }
 
     public <O> Long getIdFieldValue(O object) {
