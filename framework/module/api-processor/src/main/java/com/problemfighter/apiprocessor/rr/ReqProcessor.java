@@ -118,16 +118,24 @@ public class ReqProcessor {
         return errorDst;
     }
 
-    public <O> Long validateNGetId(RequestData<O> data, String message) {
-        Long id = getIdFieldValue(data.getData());
+    public <O> Long validateId(Long id, String message) {
         if (id == null && message != null) {
             ApiProcessorException.error(message);
         }
         return id;
     }
 
-    public <E> E validateNOp2Entity(Optional<E> optional, String message){
-        if (optional.isEmpty() && message != null){
+    public <O> Long getId(RequestData<O> data) {
+        return getIdFieldValue(data.getData());
+    }
+
+    public <O> Long validateNGetId(RequestData<O> data, String message) {
+        Long id = getIdFieldValue(data.getData());
+        return validateId(id, message);
+    }
+
+    public <E> E validateNOp2Entity(Optional<E> optional, String message) {
+        if (optional.isEmpty() && message != null) {
             ApiProcessorException.error(message);
         }
         return optional.get();

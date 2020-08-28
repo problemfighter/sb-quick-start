@@ -15,8 +15,8 @@ spring:
         order_updates: true
   datasource:
     url: 'jdbc:mysql://localhost:3306/spring_boot_bismillah'
-    username: 'root'
-    password: ''
+    username: 'spring'
+    password: 'spring'
 #  datasource:
 #    url: 'jdbc:h2:mem:sq-quick-start'
 #    username: 'sa'

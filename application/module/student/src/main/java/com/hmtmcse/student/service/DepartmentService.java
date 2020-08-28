@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -54,6 +55,10 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().pageableResponse(departmentRepository.list(req().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
     }
 
+    public PageableResponse<DepartmentMasterDTO> trash(Integer page, Integer size, String sort, String field, String search) {
+        return res().pageableResponse(departmentRepository.list(req().paginationNSort(page, size, sort, field)), DepartmentMasterDTO.class);
+    }
+
     //    @Override
     public PageableResponse<DepartmentDetailDTO> detailList(Integer page, Integer size, String sort, String field, String search) {
         return res().pageableResponse(departmentRepository.list(req().paginationNSort(page, size, sort, field)), DepartmentDetailDTO.class);
@@ -64,10 +69,14 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return res().detailsResponse(departmentRepository.findById(id), DepartmentDetailDTO.class, "Item not found");
     }
 
+    public Department validateAndGetDepartmentById(Long id){
+        Optional<Department> optional = departmentRepository.findById(req().validateId(id, "Id not found"));
+        return req().validateNOp2Entity(optional, "Content not found");
+    }
+
     //    @Override
     public MessageResponse update(RequestData<DepartmentUpdateDTO> data) {
-        Optional<Department> optional = departmentRepository.findById(req().validateNGetId(data, "Id not found."));
-        Department department = req().validateNOp2Entity(optional, "Content not found");
+        Department department = validateAndGetDepartmentById(req().getId(data));
         department = req().process(data, department);
         departmentRepository.save(department);
         return res().successMessage("Updated");
@@ -75,21 +84,30 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
 
     //    @Override
     public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
+        BulkErrorDst<DepartmentUpdateDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
+        List<Long> ids = du().getAllId(bulkErrorDst.dstList);
+        Iterable<Department> departments = departmentRepository.findAllById(ids);
         return null;
     }
 
-    @Override
-    public BulkResponse<Long> bulkDelete(RequestBulkData<Long> ids) {
+//    @Override
+    public BulkResponse<Long> bulkDelete(RequestBulkData<Long> data) {
+        Iterable<Department> departmentList = departmentRepository.findAllById(data.getData());
+        du().markAsDeleted(departmentList);
+        departmentRepository.saveAll(departmentList);
         return null;
     }
 
-    @Override
+//    @Override
     public BulkResponse<Long> hardDelete(RequestBulkData<Long> ids) {
         return null;
     }
 
-    @Override
+//    @Override
     public MessageResponse delete(Long id) {
-        return null;
+        Department department = validateAndGetDepartmentById(id);
+        du().markAsDeleted(department);
+        departmentRepository.save(department);
+        return res().successMessage("Deleted");
     }
 }

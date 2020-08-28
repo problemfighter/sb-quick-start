@@ -1,6 +1,7 @@
 package com.problemfighter.apiprocessor.common;
 
 import com.hmtmcse.oc.reflection.ReflectionProcessor;
+import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -11,6 +12,10 @@ public class DataUtil {
 
     public DataUtil() {
         reflectionProcessor = new ReflectionProcessor();
+    }
+
+    public <D> List<Long> getAllId(RequestBulkData<D> data){
+        return getAllId(data.getData());
     }
 
     public <D> List<Long> getAllId(List<D> list) {
@@ -35,7 +40,21 @@ public class DataUtil {
     }
 
     public <D> List<D> markAsDeleted(List<D> dataList) {
-        return updateProperty(dataList, Map.of("isDeleted", true));
+        for (D data: dataList){
+            markAsDeleted(data);
+        }
+        return dataList;
+    }
+
+    public <D> Iterable<D> markAsDeleted(Iterable<D> dataList) {
+        for (D data : dataList) {
+            markAsDeleted(data);
+        }
+        return dataList;
+    }
+
+    public <D> D markAsDeleted(D data) {
+        return updateProperty(data, Map.of("isDeleted", true));
     }
 
     public <D> List<D> updateProperty(List<D> dataList, Map<String, Object> fieldValue) {

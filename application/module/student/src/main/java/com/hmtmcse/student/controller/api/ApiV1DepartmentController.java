@@ -75,7 +75,7 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
 
     @RequestMapping(value = "/bulk-delete", method = RequestMethod.DELETE)
     public BulkResponse<Long> bulkDelete(@RequestBody RequestBulkData<Long> ids) {
-        return null;
+        return departmentService.bulkDelete(ids);
     }
 
     @RequestMapping(value = "/hard-delete", method = RequestMethod.DELETE)
@@ -85,6 +85,6 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
     public MessageResponse delete(@PathVariable(name = "id") Long id) {
-        return null;
+        return departmentService.delete(id);
     }
 }
