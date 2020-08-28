@@ -1,7 +1,9 @@
 package com.problemfighter.apiprocessor.common;
 
 import com.hmtmcse.oc.reflection.ReflectionProcessor;
+import com.problemfighter.apiprocessor.rr.ReqProcessor;
 import com.problemfighter.apiprocessor.rr.request.RequestBulkData;
+import com.problemfighter.apiprocessor.rr.response.*;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -9,9 +11,11 @@ import java.util.*;
 public class DataUtil {
 
     private ReflectionProcessor reflectionProcessor;
+    private ReqProcessor reqProcessor;
 
     public DataUtil() {
         reflectionProcessor = new ReflectionProcessor();
+        reqProcessor = new ReqProcessor();
     }
 
     public <D> List<Long> getAllId(RequestBulkData<D> data){
@@ -53,14 +57,18 @@ public class DataUtil {
         return dataList;
     }
 
-    public <D> D getObjectFromList(List<D> dataList, String fieldName, Object dataObject){
+    public <D> D getObjectFromList(List<D> dataList, String fieldName, Object dataObject) {
         Field listField, dataField;
-        for (D data: dataList ){
-            try{
+        for (D data : dataList) {
+            try {
                 listField = reflectionProcessor.getAnyFieldFromObject(data, fieldName);
                 dataField = reflectionProcessor.getAnyFieldFromObject(dataObject, fieldName);
-                if (listField != null && dataField != null && listField.getType() == dataField.getType() && listField.get(data).equals(dataField.get(dataObject))){
-                    return (D) listField.get(data);
+                if (listField != null && dataField != null && listField.getType() == dataField.getType()) {
+                    listField.setAccessible(true);
+                    dataField.setAccessible(true);
+                    if (listField.get(data).equals(dataField.get(dataObject))) {
+                        return data;
+                    }
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -69,12 +77,30 @@ public class DataUtil {
         return null;
     }
 
-    public <E, D> Iterable<E> merge(Iterable<E> mergeTo, List<D> dataFrom, String compareField) {
-        for (E data : mergeTo) {
-
+    public <E, D> BulkErrorValidEntities<D, E> merge(Iterable<E> mergeTo, RequestBulkData<D> data) {
+        BulkErrorValidEntities<D, E> bulkErrorValidEntities = new BulkErrorValidEntities<>();
+        List<D> sourceList = data.getData();
+        D source;
+        for (E entity : mergeTo) {
+            source = getObjectFromList(sourceList, "id", entity);
+            if (source != null) {
+                try {
+                    bulkErrorValidEntities.addToList(reqProcessor.copySrcToDstValidate(source, entity));
+                } catch (ApiProcessorException e) {
+                    MessageResponse messageResponse = (MessageResponse) e.getError();
+                    bulkErrorValidEntities.addFailed(new BulkErrorData<D>().addError(messageResponse.error).addObject(source));
+                }
+                sourceList.remove(source);
+            }
         }
-        return mergeTo;
+        ErrorData error = new ErrorData();
+        error.message = I18nMessage.message("Unable to process update");
+        for (D errorSource : sourceList) {
+            bulkErrorValidEntities.addFailed(new BulkErrorData<D>().addError(error).addObject(errorSource));
+        }
+        return bulkErrorValidEntities;
     }
+
 
     public <D> D markAsDeleted(D data) {
         return updateProperty(data, Map.of("isDeleted", true));

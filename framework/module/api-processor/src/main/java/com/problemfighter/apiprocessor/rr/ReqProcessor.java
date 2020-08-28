@@ -54,11 +54,13 @@ public class ReqProcessor {
         return null;
     }
 
-    public void dataValidate(Object source) {
+    public Boolean dataValidate(Object source) {
         LinkedHashMap<String, String> errors = this.objectCopier.validateObject(source);
         if (errors.size() != 0) {
             ApiProcessorException.throwException(ResProcessor.validationError().reason(errors));
+            return false;
         }
+        return true;
     }
 
     public void dataValidate(RequestData<?> requestData) {
@@ -71,8 +73,10 @@ public class ReqProcessor {
     }
 
     public <D> D copySrcToDstValidate(Object source, D destination) {
-        dataValidate(source);
-        return copySrcToDst(source, destination);
+        if (dataValidate(source)) {
+            return copySrcToDst(source, destination);
+        }
+        return null;
     }
 
     // Quick Access
@@ -105,8 +109,8 @@ public class ReqProcessor {
     }
 
 
-    public <D, E> BulkErrorDst<D, E> bulkProcess(RequestBulkData<D> requestData, Class<E> destination) {
-        BulkErrorDst<D, E> errorDst = new BulkErrorDst<>();
+    public <D, E> BulkErrorValidEntities<D, E> bulkProcess(RequestBulkData<D> requestData, Class<E> destination) {
+        BulkErrorValidEntities<D, E> errorDst = new BulkErrorValidEntities<>();
         for (D object : requestData.getData()) {
             try {
                 errorDst.addToList(copySrcToDstValidate(object, destination));

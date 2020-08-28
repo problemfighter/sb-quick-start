@@ -69,7 +69,7 @@ public class ApiV1DepartmentController implements MethodStructure<DepartmentMast
     }
 
     @RequestMapping(value = "/bulk-update", method = RequestMethod.PATCH)
-    public BulkResponse<DepartmentDetailDTO> bulkUpdate(@RequestBody RequestBulkData<DepartmentUpdateDTO> data) {
+    public BulkResponse<DepartmentUpdateDTO> bulkUpdate(@RequestBody RequestBulkData<DepartmentUpdateDTO> data) {
         return departmentService.bulkUpdate(data);
     }
 

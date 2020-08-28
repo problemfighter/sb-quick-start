@@ -15,6 +15,9 @@ public interface DepartmentRepository extends PagingAndSortingRepository<Departm
     @Query("SELECT d FROM Department d WHERE d.code = :code")
     Department findDepartmentByCode(String code);
 
+    @Query("SELECT d FROM Department d WHERE d.code = :code AND d.id = :id")
+    Department findDepartmentByCodeAndId(String code, Long id);
+
     @Query("SELECT d FROM Department d")
     Page<Department> list(Pageable pageable);
 }

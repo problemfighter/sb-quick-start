@@ -35,6 +35,10 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
         return true;
     }
 
+    public Department findByIdAndCode(String code, Long id){
+        return departmentRepository.findDepartmentByCodeAndId(code, id);
+    }
+
     @Override
     public MessageResponse create(RequestData<DepartmentDetailDTO> data) {
         Department department = req().process(data, Department.class);
@@ -77,19 +81,23 @@ public class DepartmentService implements RequestResponse, MethodStructure<Depar
 
     @Override
     public BulkResponse<DepartmentDetailDTO> bulkCreate(RequestBulkData<DepartmentDetailDTO> data) {
-        BulkErrorDst<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
-        if (bulkErrorDst.dstList.size() != 0) {
-            departmentRepository.saveAll(bulkErrorDst.dstList);
+        BulkErrorValidEntities<DepartmentDetailDTO, Department> bulkErrorDst = req().bulkProcess(data, Department.class);
+        if (bulkErrorDst.entityList.size() != 0) {
+            departmentRepository.saveAll(bulkErrorDst.entityList);
         }
         return res().bulkResponse(bulkErrorDst, DepartmentDetailDTO.class);
     }
 
+    public Iterable<Department> getAllByIds(List<Long> ids){
+        return departmentRepository.findAllById(ids);
+    }
+
     //    @Override
-    public BulkResponse<DepartmentDetailDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
-        BulkErrorDst<DepartmentUpdateDTO, DepartmentUpdateDTO> bulkErrorDst = req().bulkProcess(data, DepartmentUpdateDTO.class);
-        List<Long> ids = du().getAllId(bulkErrorDst.dstList);
-        Iterable<Department> departments = departmentRepository.findAllById(ids);
-        return null;
+    public BulkResponse<DepartmentUpdateDTO> bulkUpdate(RequestBulkData<DepartmentUpdateDTO> data) {
+        Iterable<Department> departments = getAllByIds(du().getAllId(data));
+        BulkErrorValidEntities<DepartmentUpdateDTO, Department> bulkErrorValidEntities = du().merge(departments, data);
+        departmentRepository.saveAll(bulkErrorValidEntities.entityList);
+        return res().bulkResponse(bulkErrorValidEntities, DepartmentUpdateDTO.class);
     }
 
 //    @Override

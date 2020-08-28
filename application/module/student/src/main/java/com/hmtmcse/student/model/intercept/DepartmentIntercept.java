@@ -15,11 +15,16 @@ public class DepartmentIntercept implements CopyInterceptor<Department, Departme
     @Autowired
     private DepartmentService departmentService;
 
-    @Override
-    public void meAsSrc(DepartmentDetailDTO source, Department destination) {
-        if (source.code != null && departmentService.isCodeAlreadyExist(destination.code)) {
+
+    private void chekCodeAlreadyExist(String code) throws ApiProcessorException {
+        if (code != null && departmentService.isCodeAlreadyExist(code)) {
             ApiProcessorException.otherError("Department code already exist");
         }
+    }
+
+    @Override
+    public void meAsSrc(DepartmentDetailDTO source, Department destination) {
+        chekCodeAlreadyExist(source.code);
     }
 
     @Override
@@ -29,6 +34,9 @@ public class DepartmentIntercept implements CopyInterceptor<Department, Departme
 
     @Override
     public void meAsSrc(DepartmentUpdateDTO source, Department destination) {
+        if (departmentService.findByIdAndCode(source.code, source.id) == null) {
+            chekCodeAlreadyExist(source.code);
+        }
         System.out.println("======= meAsSrc UE =======");
     }
 

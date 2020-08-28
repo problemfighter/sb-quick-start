@@ -158,9 +158,9 @@ public class ResProcessor {
         }
     }
 
-    public <D> BulkResponse<D> bulkResponse(BulkErrorDst<D, ?> processed, Class<D> dto) {
+    public <D> BulkResponse<D> bulkResponse(BulkErrorValidEntities<D, ?> processed, Class<D> dto) {
         BulkResponse<D> bulkResponse = new BulkResponse<>();
-        processed.addSuccessDataList(entityToDTO(processed.dstList, dto));
+        processed.addSuccessDataList(entityToDTO(processed.entityList, dto));
         bulkResponse.status = Status.partial;
         bulkResponse.code = ErrorCode.partial;
         if (processed.success == null || processed.success.size() == 0) {

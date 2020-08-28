@@ -9,4 +9,9 @@ import io.swagger.annotations.ApiModel;
 @DataMappingInfo(customProcessor = DepartmentIntercept.class)
 public class DepartmentUpdateDTO extends DepartmentMasterDTO {
     public Long id;
+
+    @Override
+    public Long getId() {
+        return id;
+    }
 }
